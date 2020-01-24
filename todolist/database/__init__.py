@@ -1,5 +1,5 @@
-import motor.motor_asyncio
+from pymongo import MongoClient
 
 DATABASE_URL = "mongodb://admin:password@db:27017/todo-list"
-client = motor.motor_asyncio.AsyncIOMotorClient(DATABASE_URL)
+client = MongoClient(DATABASE_URL, authSource="admin")
 db = client["todo-list"]

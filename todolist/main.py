@@ -8,8 +8,14 @@ app = FastAPI()
 @app.get("/")
 async def read_root():
     todo_list = TodoList(name="First todo list")
-    todo_list.save()
-    return {"Hello": todo_list.name}
+    todo_list = await todo_list.save()
+    return {"Hello": todo_list}
+
+
+@app.get("/todo-lists")
+async def read_all():
+    todo_lists = await TodoList.get_all()
+    return {"Todo lists": todo_lists}
 
 
 @app.get("/items/{item_id}")
