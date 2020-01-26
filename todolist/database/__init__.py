@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 
-DATABASE_URL = "mongodb://admin:password@db:27017/todo-list"
+from todolist.config import DATABASE_URL
+
+
 client = MongoClient(DATABASE_URL, authSource="admin")
 db = client["todo-list"]
