@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from todolist.database.models import TodoList
 from todolist.services import TodoListService
 
 app = FastAPI()
@@ -16,6 +17,16 @@ async def read_one(todo_id: str):
     return await todo_list_service.get(todo_id)
 
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
+@app.delete("/todo-list/{todo_id}")
+async def delete(todo_id: str):
+    return await todo_list_service.delete(todo_id)
+
+
+@app.post("/todo-list")
+async def create(todo_list: TodoList):
+    return await todo_list_service.create(todo_list)
+
+
+@app.put("/todo-list/{todo_id}/update")
+async def update(todo_id: str, todo_list: TodoList):
+    return await todo_list_service.update(todo_id, todo_list)
