@@ -8,7 +8,7 @@ app = FastAPI()
 @app.get("/")
 async def read_root():
     todo_list = TodoList(name="First todo list")
-    todo_list = await todo_list.save()
+    todo_list = await todo_list.create()
     return {"Hello": todo_list}
 
 

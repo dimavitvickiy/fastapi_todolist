@@ -1,16 +1,22 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
-from todolist.database import db
+from todolist.database.processors import create_todo_list, get_todo_lists
 
 
 class TodoList(BaseModel):
+    id: Optional[str] = None
     name: str
 
-    async def save(self):
-        todolist_doc = self.dict()
-        return db["todo-list"]["todo-list"].insert_one(todolist_doc)
+    async def create(self):
+        todo_list_doc = self.dict()
+        new_doc = await create_todo_list(todo_list_doc)
+        return str(new_doc.inserted_id)
 
     @classmethod
     async def get_all(cls):
-        todo_lists = TodoList(name=db["todo-list"]["todo-list"].find_one()["name"])
-        return todo_lists
+        return [
+            TodoList(name=record["name"], id=str(record["_id"]))
+            for record in await get_todo_lists()
+        ]
