@@ -27,7 +27,7 @@ async def create(todo_list: TodoList):
     return await todo_list_service.create(todo_list)
 
 
-@app.put("/todo-list/{todo_id}/update")
+@app.put("/todo-list/{todo_id}")
 async def update(todo_id: str, todo_list: TodoList):
     return await todo_list_service.update(todo_id, todo_list)
 
