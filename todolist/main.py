@@ -1,21 +1,19 @@
 from fastapi import FastAPI
 
-from todolist.database.models import TodoList
+from todolist.services import TodoListService
 
 app = FastAPI()
+todo_list_service = TodoListService()
 
 
-@app.get("/")
-async def read_root():
-    todo_list = TodoList(name="First todo list")
-    todo_list = await todo_list.create()
-    return {"Hello": todo_list}
-
-
-@app.get("/todo-lists")
+@app.get("/todo-list/all")
 async def read_all():
-    todo_lists = await TodoList.get_all()
-    return {"Todo lists": todo_lists}
+    return await todo_list_service.get_all()
+
+
+@app.get("/todo-list/{todo_id}")
+async def read_one(todo_id: str):
+    return await todo_list_service.get(todo_id)
 
 
 @app.get("/items/{item_id}")
